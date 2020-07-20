@@ -4,7 +4,7 @@ export default class BT2ProductItem extends Component {
   render() {
     let { productItem } = this.props;
     return (
-      <div className="card text-center">
+      <div className="card text-left">
         <img className="card-img-top" src={productItem.image} alt />
         <div
           className="card-body"
@@ -14,7 +14,7 @@ export default class BT2ProductItem extends Component {
             {productItem.name}
           </h4>
           <p className="card-text" style={{ height: "50px" }}>
-            {productItem.price}
+            {productItem.price}$
           </p>
           <button className="btn btn-dark">Add to cart</button>
         </div>

@@ -1,0 +1,42 @@
+import React, { Component } from "react";
+
+export default class ModalGH extends Component {
+  renderGioHang = () => {
+    let {gioHang} = this.props;
+    return gioHang.map((sanPhamGH, index) => {
+      return (
+        <tr key={index}>
+          <td>{sanPhamGH.maSP}</td>
+          <td>{sanPhamGH.tenSP}</td>
+          <td>
+            <img src={sanPhamGH.hinhAnh} width="50" height="100" />
+          </td>
+          <td>{sanPhamGH.soLuong}</td>
+          <td>{sanPhamGH.gia}</td>
+          <td>{sanPhamGH.soLuong * sanPhamGH.gia}</td>
+          <td>
+            <button  className="btn btn-danger">Xóa</button>
+          </td>
+        </tr>
+      );
+    });
+  };
+  render() {
+    return (
+      <div className="container">
+        <h3 className="text-center pb-5">Giỏ Hàng</h3>
+        <table className="table">
+          <thead>
+            <th>Mã SP</th>
+            <th>Tên SP</th>
+            <th>Hình Ảnh</th>
+            <th>Số Lượng</th>
+            <th>Đơn Giá</th>
+            <th>Thành Tiền</th>
+          </thead>
+          <tbody>{this.renderGioHang()}</tbody>
+        </table>
+      </div>
+    );
+  }
+}
