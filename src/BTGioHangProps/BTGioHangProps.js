@@ -43,15 +43,7 @@ export default class BTGioHangProps extends Component {
   ];
 
   state = {
-    gioHang: [
-      {
-        maSP: 1,
-        tenSP: "VinSmart Live",
-        hinhAnh: "./img/vsphone.jpg",
-        soLuong: 1,
-        gia: 1000,
-      },
-    ],
+    gioHang: [],
   };
 
   themGH = (sanPhamClick) => {
@@ -66,20 +58,68 @@ export default class BTGioHangProps extends Component {
       soLuong: 1,
     };
 
-    // Định nghĩa hàm thay đổi state tại nơi chứa state 
-    // tạo giỏ hàng mới 
+    // Định nghĩa hàm thay đổi state tại nơi chứa state
+    // tạo giỏ hàng mới
 
-    let gioHangCapNhat = [...this.state.gioHang, spGioHang];
+    let gioHangCapNhat = [...this.state.gioHang];
 
+    let index = gioHangCapNhat.findIndex(
+      (spGH) => spGH.maSP === spGioHang.maSP
+    );
+    if (index !== -1) {
+      gioHangCapNhat[index].soLuong += 1;
+    } else {
+      gioHangCapNhat.push(spGioHang);
+    }
     // cập nhật giỏ hàng cũ bằng phương thức setstate
     this.setState({ gioHang: gioHangCapNhat });
   };
 
+  xoaGioHang = (maSP) => {
+    let gioHangCapNhap = [...this.state.gioHang];
+
+    // setState
+    console.log(maSP);
+
+    let index = gioHangCapNhap.findIndex(
+      (spGioHang) => spGioHang.maSP === maSP
+    );
+    if (index !== -1) {
+      gioHangCapNhap.splice(index, 1);
+    }
+    this.setState({ gioHang: gioHangCapNhap });
+  };
+
+  tangGiamSoLuong = (maSP, tangGiam) => {
+    // tangGiam = true là tăng, tangGiam = false giảm
+
+    let gioHangCapNhap = [...this.state.gioHang];
+    let index = gioHangCapNhap.findIndex ((soLuongGH) => soLuongGH.maSP === maSP);
+
+    if (index !== -1) {
+      if (tangGiam) {
+        gioHangCapNhap[index].soLuong +=1
+      }
+      else{
+        if (gioHangCapNhap[index].soLuong > 1) {
+          gioHangCapNhap[index].soLuong -=1
+        }
+        else{
+          alert("Số lượng tối thiểu là 1")
+        }
+      }
+    }
+    this.setState({gioHang : gioHangCapNhap})
+  };
   render() {
     return (
       <div>
         <DSSP themGH={this.themGH} mangSanPham={this.arrProduct} />
-        <ModalGH gioHang={this.state.gioHang} />
+        <ModalGH
+          tangGiamSoLuong={this.tangGiamSoLuong}
+          xoaGioHang={this.xoaGioHang}
+          gioHang={this.state.gioHang}
+        />
       </div>
     );
   }
