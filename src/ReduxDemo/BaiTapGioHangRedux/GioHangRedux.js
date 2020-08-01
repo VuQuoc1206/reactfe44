@@ -11,11 +11,36 @@ class GioHangRedux extends Component {
           <td>
             <img src={sanPhamGH.hinhAnh} width="50" />
           </td>
-          <td>{sanPhamGH.soLuong}</td>
-          <td>{(sanPhamGH.giaBan).toLocaleString()}</td>
+          <td>
+            <button
+              onClick={() => {
+                this.props.tangGiamSoLuong(sanPhamGH.maSP, true);
+              }}
+              className="btn btn-primary"
+            >
+              +
+            </button>
+            {sanPhamGH.soLuong}
+            <button
+              onClick={() => {
+                this.props.tangGiamSoLuong(sanPhamGH.maSP, false);
+              }}
+              className="btn btn-primary"
+            >
+              -
+            </button>
+          </td>
+          <td>{sanPhamGH.giaBan.toLocaleString()}</td>
           <td>{(sanPhamGH.soLuong * sanPhamGH.giaBan).toLocaleString()}</td>
           <td>
-            <button className="btn btn-danger">Xóa</button>
+            <button
+              onClick={() => {
+                this.props.xoaGH(sanPhamGH.maSP);
+              }}
+              className="btn btn-danger"
+            >
+              Xóa
+            </button>
           </td>
         </tr>
       );
@@ -38,6 +63,17 @@ class GioHangRedux extends Component {
             </tr>
           </thead>
           <tbody>{this.renderGioHang()}</tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="5"></td>
+              <td>Tổng Tiền :</td>
+              <td>
+                {this.props.gioHang.reduce((tongTien,spGH,index)=>{
+                  return tongTien += spGH.soLuong * spGH.giaBan
+                },0).toLocaleString()}
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     );
@@ -51,4 +87,25 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(GioHangRedux);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    xoaGH: (maSP) => {
+      console.log(maSP);
+      let action = {
+        type: "XOA_GIO_HANG",
+        maSP: maSP,
+      };
+      // dùng hàm dispatch của redux đưa dữ liệu lên reducer
+      dispatch(action);
+    },
+    tangGiamSoLuong: (maSP, tangGiam) => {
+      dispatch({
+        type: "TANG_GIAM_SO_LUONG",
+        maSP: maSP,
+        tangGiam: tangGiam,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GioHangRedux);

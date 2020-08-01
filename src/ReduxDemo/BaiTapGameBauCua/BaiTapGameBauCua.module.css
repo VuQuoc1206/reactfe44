@@ -1,0 +1,32 @@
+@font-face {
+  font-family: ponyFont;
+  src: url(./Pony.ttf);
+}
+
+.gameBauCua {
+  font-family: ponyFont;
+}
+
+@keyframes animBauCua {
+  0% {
+    left: -100px;
+  }
+  25% {
+    left: 100px;
+  }
+  50% {
+    left: 0px;
+  }
+  75% {
+    left: -100px;
+  }
+  100% {
+    left: 100px;
+  }
+}
+
+.xucXac {
+  left: 0px;
+  position: relative;
+  animation: animBauCua 0.5s  0  linear;
+}
